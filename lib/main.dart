@@ -1,66 +1,195 @@
-import 'dart:io'; 
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
- 
-void main() {
-  runApp(MaterialApp(home: MyApp()));
-}
- 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
- 
-class _MyAppState extends State<MyApp> {
-  AudioCache audioCache = AudioCache();
-  AudioPlayer advancedPlayer = AudioPlayer();
- 
-  @override
-  void initState() {
-    super.initState();
- 
-    if (Platform.isIOS) {
-      if (audioCache.fixedPlayer != null) {
-        audioCache.fixedPlayer.startHeadlessService();
-      }
-    }
-  }
- 
- 
- 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:swipedetector/swipedetector.dart';
 
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      localizationsDelegates: [
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale("ar", "AE"),
+      ],
+      locale: Locale("ar", "AE"),
+      title: 'تطبيقي',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: new MyHomePage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => new _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String _swipeDirection = "";
+  FlutterTts flutterTts;
+  String s="";
+
+
+
+  Widget createButton(String word){
+    return  InkWell(
+      onTap: (){
+        _speak(word);
+        s=s+word;
+        print(s);
+      },
+      child: Container(
+        margin: EdgeInsets.all(5),
+        color: Colors.grey,
+        child: Center(
+          child: Text(
+            '$word',
+            style: Theme.of(context).textTheme.headline3,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  initState() {
+    super.initState();
+    initTts();
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+    flutterTts.setLanguage("ar");
+  }
+
+
+
+
+  Future _speak(String word) async {
+
+    await flutterTts.awaitSpeakCompletion(true);
+    await flutterTts.speak(word);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-          appBar: AppBar(
- 
-            title: Text('Example mp3 asset'),
-          ),
-          body: SingleChildScrollView(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height:30),
-                  
-                  Text('Play Local Asset \'sample.mp3\':'),
- 
-                  SizedBox(height: 30),
- 
-                  RaisedButton(
-                    child: Text("Play Audio"),
-                    onPressed: () => audioCache.play('sample.mp3')),
- 
-                  SizedBox(height: 30),
- 
- 
-                ],
-              ),
-            ),
-          ),
-        );
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('تطبيقي'),
+        ),
+        body: SwipeDetector(
+          onSwipeUp: () {
+            setState(() {
+              _swipeDirection = "Swipe Up";
+              if(s.length>0) {
+                _speak("$s");
+              }else{
+                _speak("الرسالة فارغة");
+              }
+            });
+          },
+          onSwipeDown: () {
+            setState(() {
+              _swipeDirection = "Swipe Down";
+              if(s.length>0) {
+                _speak("تم حدف الرسالة");
+              }else{
+                _speak("الرسالة فارغة");
+              }
+              setState(() {
+                s="";
+              });
+            });
+          },
+          onSwipeLeft: () {
+            setState(() {
+              _swipeDirection = "Swipe Left";
+              _speak("اليسار");
+            });
+          },
+          onSwipeRight: () {
+            setState(() {
+              _swipeDirection = "Swipe Right";
+              _speak("اليمين");
+            });
+          },
+          swipeConfiguration: SwipeConfiguration(
+              verticalSwipeMinVelocity: 100.0,
+              verticalSwipeMinDisplacement: 50.0,
+              verticalSwipeMaxWidthThreshold:100.0,
+              horizontalSwipeMaxHeightThreshold: 50.0,
+              horizontalSwipeMinDisplacement:50.0,
+              horizontalSwipeMinVelocity: 200.0),
+          child: TabBarView(
+              children: <Widget>[
+                  GridView.count(
+                      childAspectRatio: 0.55,
+                      crossAxisCount: 3,
+                      physics: NeverScrollableScrollPhysics(),
+                      // Generate 100 widgets that display their index in the List.
+                      children:[
+                        createButton("ا"),
+                        createButton("ب"),
+                        createButton("ت"),
+                        createButton("ث"),
+                        createButton("ج"),
+                        createButton("ح"),
+                        createButton("خ"),
+                        createButton("د"),
+                        createButton("ذ"),
+                      ],
+                    ),
+
+                GridView.count(
+                    childAspectRatio: 0.55,
+                    crossAxisCount: 3,
+                    physics: NeverScrollableScrollPhysics(),
+                    // Generate 100 widgets that display their index in the List.
+                    children:[
+                      createButton("ر"),
+                      createButton("ز"),
+                      createButton("س"),
+                      createButton("ش"),
+                      createButton("ص"),
+                      createButton("ض"),
+                      createButton("ط"),
+                      createButton("ظ"),
+                      createButton("غ"),
+                    ],
+                  ),
+                GridView.count(
+                    childAspectRatio: 0.55,
+                    crossAxisCount: 3,
+                    physics: NeverScrollableScrollPhysics(),
+                    // Generate 100 widgets that display their index in the List.
+                    children:[
+                      createButton("ف"),
+                      createButton("ق"),
+                      createButton("ك"),
+                      createButton("ل"),
+                      createButton("م"),
+                      createButton("ن"),
+                      createButton("ه"),
+                      createButton("و"),
+                      createButton("ي"),
+                    ],
+                  ),
+              ] ),
+        ),
+      ),
+    );
   }
 }
- 
