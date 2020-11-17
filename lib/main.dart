@@ -173,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         createButton("ض"),
                         createButton("ط"),
                         createButton("ظ"),
-                        createButton("غ"),
+                        createButton("ع"),
                       ],
                     ),
                   GridView.count(
@@ -182,6 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       physics: NeverScrollableScrollPhysics(),
                       // Generate 100 widgets that display their index in the List.
                       children:[
+                        createButton("غ"),
                         createButton("ف"),
                         createButton("ق"),
                         createButton("ك"),
@@ -190,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         createButton("ن"),
                         createButton("ه"),
                         createButton("و"),
-                        createButton("ي"),
+
                       ],
                     ),
                 ] ),
