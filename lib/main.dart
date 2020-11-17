@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _swipeDirection = "";
   FlutterTts flutterTts;
   String s="";
-
+  var myDynamicAspectRatio = 1000 / 1;
 
 
   Widget createButton(String word){
@@ -84,6 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    print(height);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -142,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: TabBarView(
                 children: <Widget>[
                     GridView.count(
-                        childAspectRatio: 0.55,
+                      childAspectRatio: height<550?0.75:height<650?0.72:height<700?0.69:0.55,
                         crossAxisCount: 3,
                         physics: NeverScrollableScrollPhysics(),
                         // Generate 100 widgets that display their index in the List.
@@ -160,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
 
                   GridView.count(
-                      childAspectRatio: 0.55,
+                    childAspectRatio: height<550?0.75:height<650?0.72:height<700?0.69:0.55,
                       crossAxisCount: 3,
                       physics: NeverScrollableScrollPhysics(),
                       // Generate 100 widgets that display their index in the List.
@@ -177,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   GridView.count(
-                      childAspectRatio: 0.55,
+                    childAspectRatio: height<550?0.75:height<650?0.72:height<700?0.69:0.55,
                       crossAxisCount: 3,
                       physics: NeverScrollableScrollPhysics(),
                       // Generate 100 widgets that display their index in the List.
