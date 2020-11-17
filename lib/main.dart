@@ -90,104 +90,111 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text('تطبيقي'),
         ),
-        body: SwipeDetector(
-          onSwipeUp: () {
-            setState(() {
-              _swipeDirection = "Swipe Up";
-              if(s.length>0) {
-                _speak("$s");
-              }else{
-                _speak("الرسالة فارغة");
-              }
-            });
+        body: GestureDetector(
+          onLongPress: (){
+            s=s+' ';
+            print(s);
           },
-          onSwipeDown: () {
-            setState(() {
-              _swipeDirection = "Swipe Down";
-              if(s.length>0) {
-                _speak("تم حدف الرسالة");
-              }else{
-                _speak("الرسالة فارغة");
-              }
+          child: SwipeDetector(
+            onSwipeUp: () {
               setState(() {
-                s="";
+                _swipeDirection = "Swipe Up";
+                if(s.length>0) {
+                  _speak("$s");
+                }else{
+                  _speak("الرسالة فارغة");
+                }
               });
-            });
-          },
-          onSwipeLeft: () {
-            setState(() {
-              _swipeDirection = "Swipe Left";
-              _speak("اليسار");
-            });
-          },
-          onSwipeRight: () {
-            setState(() {
-              _swipeDirection = "Swipe Right";
-              _speak("اليمين");
-            });
-          },
-          swipeConfiguration: SwipeConfiguration(
-              verticalSwipeMinVelocity: 100.0,
-              verticalSwipeMinDisplacement: 50.0,
-              verticalSwipeMaxWidthThreshold:100.0,
-              horizontalSwipeMaxHeightThreshold: 50.0,
-              horizontalSwipeMinDisplacement:50.0,
-              horizontalSwipeMinVelocity: 200.0),
-          child: TabBarView(
-              children: <Widget>[
+            },
+            onSwipeDown: () {
+              setState(() {
+                _swipeDirection = "Swipe Down";
+                if(s.length>0) {
+                  _speak("تم حدف اخر حرف");
+                }else{
+                  _speak("الرسالة فارغة");
+                }
+                setState(() {
+                  s=s.substring(0, s.length - 1);
+                  print(s);
+                });
+              });
+            },
+            onSwipeLeft: () {
+              setState(() {
+                _swipeDirection = "Swipe Left";
+                _speak("اليسار");
+              });
+            },
+            onSwipeRight: () {
+              setState(() {
+                _swipeDirection = "Swipe Right";
+                _speak("اليمين");
+              });
+            },
+            swipeConfiguration: SwipeConfiguration(
+                verticalSwipeMinVelocity: 100.0,
+                verticalSwipeMinDisplacement: 50.0,
+                verticalSwipeMaxWidthThreshold:100.0,
+                horizontalSwipeMaxHeightThreshold: 50.0,
+                horizontalSwipeMinDisplacement:50.0,
+                horizontalSwipeMinVelocity: 200.0),
+            child: TabBarView(
+                children: <Widget>[
+                    GridView.count(
+                        childAspectRatio: 0.55,
+                        crossAxisCount: 3,
+                        physics: NeverScrollableScrollPhysics(),
+                        // Generate 100 widgets that display their index in the List.
+                        children:[
+                          createButton("ا"),
+                          createButton("ب"),
+                          createButton("ت"),
+                          createButton("ث"),
+                          createButton("ج"),
+                          createButton("ح"),
+                          createButton("خ"),
+                          createButton("د"),
+                          createButton("ذ"),
+                        ],
+                      ),
+
                   GridView.count(
                       childAspectRatio: 0.55,
                       crossAxisCount: 3,
                       physics: NeverScrollableScrollPhysics(),
                       // Generate 100 widgets that display their index in the List.
                       children:[
-                        createButton("ا"),
-                        createButton("ب"),
-                        createButton("ت"),
-                        createButton("ث"),
-                        createButton("ج"),
-                        createButton("ح"),
-                        createButton("خ"),
-                        createButton("د"),
-                        createButton("ذ"),
+                        createButton("ر"),
+                        createButton("ز"),
+                        createButton("س"),
+                        createButton("ش"),
+                        createButton("ص"),
+                        createButton("ض"),
+                        createButton("ط"),
+                        createButton("ظ"),
+                        createButton("غ"),
                       ],
                     ),
-
-                GridView.count(
-                    childAspectRatio: 0.55,
-                    crossAxisCount: 3,
-                    physics: NeverScrollableScrollPhysics(),
-                    // Generate 100 widgets that display their index in the List.
-                    children:[
-                      createButton("ر"),
-                      createButton("ز"),
-                      createButton("س"),
-                      createButton("ش"),
-                      createButton("ص"),
-                      createButton("ض"),
-                      createButton("ط"),
-                      createButton("ظ"),
-                      createButton("غ"),
-                    ],
-                  ),
-                GridView.count(
-                    childAspectRatio: 0.55,
-                    crossAxisCount: 3,
-                    physics: NeverScrollableScrollPhysics(),
-                    // Generate 100 widgets that display their index in the List.
-                    children:[
-                      createButton("ف"),
-                      createButton("ق"),
-                      createButton("ك"),
-                      createButton("ل"),
-                      createButton("م"),
-                      createButton("ن"),
-                      createButton("ه"),
-                      createButton("و"),
-                      createButton("ي"),
-                    ],
-                  ),
-              ] ),
+                  GridView.count(
+                      childAspectRatio: 0.55,
+                      crossAxisCount: 3,
+                      physics: NeverScrollableScrollPhysics(),
+                      // Generate 100 widgets that display their index in the List.
+                      children:[
+                        createButton("ف"),
+                        createButton("ق"),
+                        createButton("ك"),
+                        createButton("ل"),
+                        createButton("م"),
+                        createButton("ن"),
+                        createButton("ه"),
+                        createButton("و"),
+                        createButton("ي"),
+                      ],
+                    ),
+                ] ),
+          ),
         ),
       ),
     );
